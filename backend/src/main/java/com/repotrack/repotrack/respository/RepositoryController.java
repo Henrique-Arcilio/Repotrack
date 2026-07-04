@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/repositorios")
 @RequiredArgsConstructor
@@ -20,6 +23,24 @@ public class RepositoryController {
         Repository repository = repositoryService.save(RepositoryMapper.toEntity(dto));
         return ResponseEntity.ok(RepositoryMapper.toDto(repository));
     }
+
+    @GetMapping
+    public ResponseEntity<List<RepositoryDto>> getAll(){
+        List<RepositoryDto> response =
+                repositoryService
+                        .getAll()
+                        .stream()
+                        .map(RepositoryMapper::toDto)
+                        .toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RepositoryDto> getByid(@PathVariable UUID id){
+        return ResponseEntity.ok(RepositoryMapper.toDto(repositoryService.findById(id)));
+    }
+
 
 
 }
