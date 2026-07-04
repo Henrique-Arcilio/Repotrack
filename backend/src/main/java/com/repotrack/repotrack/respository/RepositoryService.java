@@ -1,5 +1,6 @@
 package com.repotrack.repotrack.respository;
 
+import com.repotrack.repotrack.respository.dto.EditRepositoryDto;
 import com.repotrack.repotrack.respository.exception.DuplicateRepositoryException;
 import com.repotrack.repotrack.respository.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,20 @@ public class RepositoryService {
         return repoRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("Repositório com Id" + id +" não encontrado"));
+    }
+
+    @Transactional
+    public Repository edit(UUID id, EditRepositoryDto dto){
+        Repository repository = findById(id);
+        repository.setPriority(dto.priority());
+        repository.setStatus(dto.status());
+        repository.setNotes(dto.notes());
+        return repoRepository.save(repository);
+    }
+
+    @Transactional
+    public void delete(UUID id){
+        repoRepository.delete(findById(id));
     }
 
 }

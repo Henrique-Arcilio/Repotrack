@@ -1,10 +1,12 @@
 package com.repotrack.repotrack.respository;
 
+import com.repotrack.repotrack.respository.dto.EditRepositoryDto;
 import com.repotrack.repotrack.respository.dto.RepositoryDto;
 import com.repotrack.repotrack.respository.dto.RepositoryMapper;
 import com.repotrack.repotrack.respository.dto.SaveRepositoryDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +43,15 @@ public class RepositoryController {
         return ResponseEntity.ok(RepositoryMapper.toDto(repositoryService.findById(id)));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<RepositoryDto> edit(@PathVariable UUID id, @RequestBody EditRepositoryDto dto ){
+        return ResponseEntity.ok(RepositoryMapper.toDto(repositoryService.edit(id, dto)));
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id){
+        repositoryService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 }
