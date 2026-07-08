@@ -43,17 +43,44 @@ fun CardProjetoSalvo(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
+            CabecalhoRepositorio(
+                nome = projeto.nome,
+                avatarUrl = projeto.avatarUrl,
+                proprietario = projeto.proprietario
+            )
+
+            Spacer(modifier = Modifier.size(8.dp))
+
+            Text(
+                text = projeto.descricao ?: "Sem descrição.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Spacer(modifier = Modifier.size(12.dp))
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CabecalhoRepositorio(
-                    nome = projeto.nome,
-                    avatarUrl = projeto.avatarUrl,
-                    proprietario = projeto.proprietario
-                )
-                
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    TagInfo(
+                        texto = projeto.status.name.replace("_", " ")
+                            .lowercase()
+                            .replaceFirstChar { it.uppercase() }, 
+                        cor = MaterialTheme.colorScheme.secondaryContainer
+                    )
+                    TagInfo(
+                        texto = projeto.prioridade.name.lowercase().replaceFirstChar { it.uppercase() }, 
+                        cor = MaterialTheme.colorScheme.tertiaryContainer
+                    )
+                }
+
                 Row {
                     IconButton(onClick = onEditarClick) {
                         Icon(
@@ -70,34 +97,6 @@ fun CardProjetoSalvo(
                         )
                     }
                 }
-            }
-
-            Spacer(modifier = Modifier.size(8.dp))
-
-            Text(
-                text = projeto.descricao ?: "Sem descrição.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-
-            Spacer(modifier = Modifier.size(12.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                TagInfo(
-                    texto = projeto.status.name.replace("_", " ")
-                        .lowercase()
-                        .replaceFirstChar { it.uppercase() }, 
-                    cor = MaterialTheme.colorScheme.secondaryContainer
-                )
-                TagInfo(
-                    texto = "Prioridade ${projeto.prioridade.name.lowercase().replaceFirstChar { it.uppercase() }}", 
-                    cor = MaterialTheme.colorScheme.tertiaryContainer
-                )
             }
         }
     }
