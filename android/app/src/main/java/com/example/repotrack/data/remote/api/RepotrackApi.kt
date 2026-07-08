@@ -7,6 +7,6 @@ import retrofit2.http.POST
 
 interface RepotrackApi {
 
-    @POST("/repositories")
+    @POST("repositories")
     suspend fun criar(@Body dto: RepotrackSaveDto) : RepotrackSaveResponse
 }

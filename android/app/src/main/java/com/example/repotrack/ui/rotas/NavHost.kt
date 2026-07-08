@@ -17,8 +17,6 @@ import com.example.repotrack.ui.detalhes.DetalhesScreen
 
 @Composable
 fun RepoTrackNavHost(
-    // Recebe o mesmo NavController criado no RepoTrackApp.
-    // Assim, barra inferior e NavHost usam a mesma pilha.
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
@@ -89,10 +87,6 @@ fun RepoTrackNavHost(
 
                     onVoltar = {
                         navController.popBackStack()
-                    },
-
-                    onAdicionarProjeto = {
-                        // Depois chamaremos a API própria.
                     },
 
                     onAbrirRepositorio = { url ->

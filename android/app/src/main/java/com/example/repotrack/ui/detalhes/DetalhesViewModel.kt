@@ -3,6 +3,8 @@ package com.example.repotrack.ui.detalhes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.repotrack.data.repository.GitHubRepository
+import com.example.repotrack.data.repository.RepotrackRepository
+import com.example.repotrack.data.remote.mappers.toSaveDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,8 +12,8 @@ import kotlinx.coroutines.launch
 
 class DetalhesViewModel : ViewModel() {
 
-    private val repository = GitHubRepository()
-
+    private val gitHubRepository = GitHubRepository()
+    private val repotrackRepository = RepotrackRepository()
     private val _uiState =
         MutableStateFlow(DetalhesUiState())
 
@@ -29,7 +31,7 @@ class DetalhesViewModel : ViewModel() {
 
             try {
                 val repositorio =
-                    repository.buscarDetalhes(
+                    gitHubRepository.buscarDetalhes(
                         proprietario = proprietario,
                         nome = nome
                     )
@@ -41,6 +43,21 @@ class DetalhesViewModel : ViewModel() {
                 _uiState.value = DetalhesUiState(
                     erro = erro.message
                         ?: "Erro ao carregar repositório"
+                )
+            }
+        }
+    }
+    
+    fun salvarRepositorio() {
+        val repositorio = _uiState.value.repositorio ?: return
+
+        viewModelScope.launch {
+            try {
+                val dto = repositorio.toSaveDto()
+                repotrackRepository.salvar(dto)
+            } catch (erro: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    erro = erro.message ?: "Erro ao salvar repositório"
                 )
             }
         }

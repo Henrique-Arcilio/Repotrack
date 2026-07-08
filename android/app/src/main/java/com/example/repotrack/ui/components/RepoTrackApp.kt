@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.repotrack.data.repository.RepotrackRepository
 import com.example.repotrack.ui.rotas.RepoTrackNavHost
 import com.example.repotrack.ui.rotas.Rotas
 

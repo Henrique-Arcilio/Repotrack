@@ -17,7 +17,6 @@ fun DetalhesScreen(
     proprietario: String,
     nome: String,
     onVoltar: () -> Unit,
-    onAdicionarProjeto: () -> Unit,
     onAbrirRepositorio: (String) -> Unit,
     viewModel: DetalhesViewModel = viewModel()
 ) {
@@ -59,7 +58,9 @@ fun DetalhesScreen(
             DetalhesContent(
                 repositorio = repositorio,
                 onVoltar = onVoltar,
-                onAdicionarProjeto = onAdicionarProjeto,
+                onAdicionarProjeto = {
+                    viewModel.salvarRepositorio()
+                },
                 onAbrirRepositorio = {
                     onAbrirRepositorio(
                         repositorio.repositorioUrl
