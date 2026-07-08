@@ -14,5 +14,6 @@ data class RepotrackSaveDto(
     val stars: Int,
     val forks: Int,
     val priority: Priority,
-    val status: Status
+    val status: Status,
+    val notes: String? = null
 )

@@ -20,25 +20,26 @@ fun RepotrackSaveResponse.toModel() : RepositorioRepotrackModel{
         forks = forks,
         status = status,
         prioridade = priority,
-        criadoEm = createdAt.toString(),
+        criadoEm = createdAt,
     )
 }
 
 fun RepositorioGithubModel.toSaveDto(
     prioridade: Priority = Priority.MEDIA,
-    status: Status = Status.QUERO_ESTUDAR
+    status: Status = Status.QUERO_ESTUDAR,
 ): RepotrackSaveDto {
     return RepotrackSaveDto(
         githubId = githubId,
         name = nome,
         fullName = "$proprietario/$nome",
-        description = descricao ?: "",
+        description = (descricao ?: "").take(200),
         language = linguagem ?: "",
         avatarUrl = avatarUrl ?: "",
         repositoryUrl = repositorioUrl,
         stars = estrelas,
         forks = forks,
         priority = prioridade,
-        status = status
+        status = status,
+        notes = ""
     )
 }

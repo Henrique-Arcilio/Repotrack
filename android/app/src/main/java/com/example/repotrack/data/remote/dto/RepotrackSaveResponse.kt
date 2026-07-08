@@ -2,11 +2,9 @@ package com.example.repotrack.data.remote.dto
 
 import com.example.repotrack.data.remote.enums.Priority
 import com.example.repotrack.data.remote.enums.Status
-import java.time.LocalDateTime
-import java.util.UUID
 
 data class RepotrackSaveResponse(
-    val id: UUID,
+    val id: String,
     val githubId: Long,
     val name: String,
     val fullName: String,
@@ -18,5 +16,5 @@ data class RepotrackSaveResponse(
     val forks: Int,
     val priority: Priority,
     val status: Status,
-    val createdAt: LocalDateTime
+    val createdAt: String
 )
