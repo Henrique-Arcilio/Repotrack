@@ -27,12 +27,13 @@ fun RepotrackSaveResponse.toModel() : RepositorioRepotrackModel{
 fun RepositorioGithubModel.toSaveDto(
     prioridade: Priority = Priority.MEDIA,
     status: Status = Status.QUERO_ESTUDAR,
+    observacoes: String = ""
 ): RepotrackSaveDto {
     return RepotrackSaveDto(
         githubId = githubId,
         name = nome,
         fullName = "$proprietario/$nome",
-        description = (descricao ?: "").take(200),
+        description = (descricao ?: ""),
         language = linguagem ?: "",
         avatarUrl = avatarUrl ?: "",
         repositoryUrl = repositorioUrl,
@@ -40,6 +41,6 @@ fun RepositorioGithubModel.toSaveDto(
         forks = forks,
         priority = prioridade,
         status = status,
-        notes = ""
+        notes = observacoes
     )
 }

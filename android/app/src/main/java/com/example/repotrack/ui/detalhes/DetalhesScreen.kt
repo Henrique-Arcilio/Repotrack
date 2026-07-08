@@ -57,6 +57,9 @@ fun DetalhesScreen(
 
             DetalhesContent(
                 repositorio = repositorio,
+                prioridade = uiState.prioridade,
+                status = uiState.status,
+                observacoes = uiState.observacoes,
                 onVoltar = onVoltar,
                 onAdicionarProjeto = {
                     viewModel.salvarRepositorio()
@@ -65,7 +68,10 @@ fun DetalhesScreen(
                     onAbrirRepositorio(
                         repositorio.repositorioUrl
                     )
-                }
+                },
+                onPrioridadeAlterada = viewModel::atualizarPrioridade,
+                onStatusAlterado = viewModel::atualizarStatus,
+                onObservacoesAlteradas = viewModel::atualizarObservacoes
             )
         }
     }

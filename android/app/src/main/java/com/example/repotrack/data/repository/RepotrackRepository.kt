@@ -14,4 +14,24 @@ class RepotrackRepository(
         val resposta = api.criar(dto)
         return resposta.toModel()
     }
+
+    suspend fun buscarTodos() : List<RepositorioRepotrackModel>{
+        val resposta = api.buscarTodos()
+        return resposta.items.map { it.toModel() }
+    }
+
+    suspend fun buscarPorId(id: String) : RepositorioRepotrackModel{
+        val resposta = api.buscarPorId(id)
+        return resposta.toModel()
+    }
+
+    suspend fun deletarPorId(id: String) : RepositorioRepotrackModel{
+        val resposta = api.deletarPorId(id)
+        return resposta.toModel()
+    }
+
+    suspend fun editar(id: String) : RepositorioRepotrackModel{
+        val resposta = api.deletarPorId(id)
+        return resposta.toModel()
+    }
 }

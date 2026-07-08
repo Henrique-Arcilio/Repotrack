@@ -17,11 +17,19 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -31,17 +39,30 @@ import com.example.repotrack.ui.components.BotaoAdicionarProjeto
 import com.example.repotrack.ui.components.CabecalhoDetalhes
 import com.example.repotrack.ui.components.CardMetrica
 import com.example.repotrack.ui.components.LinkRepositorio
+import com.example.repotrack.ui.components.SeletorOpcoes
 import com.example.repotrack.ui.components.TopoDetalhes
+import com.example.repotrack.data.remote.enums.Priority
+import com.example.repotrack.data.remote.enums.Status
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetalhesContent(
     repositorio: RepositorioGithubModel,
+    prioridade: Priority,
+    status: Status,
+    observacoes: String,
     onVoltar: () -> Unit,
     onAdicionarProjeto: () -> Unit,
     onAbrirRepositorio: () -> Unit,
+    onPrioridadeAlterada: (Priority) -> Unit,
+    onStatusAlterado: (Status) -> Unit,
+    onObservacoesAlteradas: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var mostrarSheet by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState()
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -129,8 +150,83 @@ fun DetalhesContent(
             Spacer(modifier = Modifier.height(22.dp))
 
             BotaoAdicionarProjeto(
-                onClick = onAdicionarProjeto
+                onClick = { mostrarSheet = true }
             )
+        }
+
+        if (mostrarSheet) {
+            ModalBottomSheet(
+                onDismissRequest = { mostrarSheet = false },
+                sheetState = sheetState
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 32.dp, start = 16.dp, end = 16.dp)
+                ) {
+                    Text(
+                        text = "Configurações de Estudo",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    SeletorOpcoes(
+                        titulo = "Status",
+                        opcoes = Status.entries.map { 
+                            it.name.replace("_", " ")
+                                .lowercase()
+                                .replaceFirstChar { char -> char.uppercase() } 
+                        },
+                        opcaoSelecionada = status.name.replace("_", " ")
+                            .lowercase()
+                            .replaceFirstChar { char -> char.uppercase() },
+                        onOpcaoSelecionada = { nome ->
+                            val entry = Status.entries.find { 
+                                it.name.replace("_", " ").equals(nome, ignoreCase = true) 
+                            }
+                            if (entry != null) onStatusAlterado(entry)
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    SeletorOpcoes(
+                        titulo = "Prioridade",
+                        opcoes = Priority.entries.map { 
+                            it.name.lowercase().replaceFirstChar { char -> char.uppercase() } 
+                        },
+                        opcaoSelecionada = prioridade.name.lowercase()
+                            .replaceFirstChar { char -> char.uppercase() },
+                        onOpcaoSelecionada = { nome ->
+                            val entry = Priority.entries.find { 
+                                it.name.equals(nome, ignoreCase = true) 
+                            }
+                            if (entry != null) onPrioridadeAlterada(entry)
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    OutlinedTextField(
+                        value = observacoes,
+                        onValueChange = onObservacoesAlteradas,
+                        label = { Text("Observações (opcional)") },
+                        modifier = Modifier.fillMaxWidth(),
+                        minLines = 3
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    BotaoAdicionarProjeto(
+                        onClick = {
+                            onAdicionarProjeto()
+                            mostrarSheet = false
+                        }
+                    )
+                }
+            }
         }
     }
 }

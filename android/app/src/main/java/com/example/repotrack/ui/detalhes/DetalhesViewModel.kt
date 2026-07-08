@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.repotrack.data.repository.GitHubRepository
 import com.example.repotrack.data.repository.RepotrackRepository
 import com.example.repotrack.data.remote.mappers.toSaveDto
+import com.example.repotrack.data.remote.enums.Priority
+import com.example.repotrack.data.remote.enums.Status
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -49,11 +51,16 @@ class DetalhesViewModel : ViewModel() {
     }
     
     fun salvarRepositorio() {
-        val repositorio = _uiState.value.repositorio ?: return
+        val state = _uiState.value
+        val repositorio = state.repositorio ?: return
 
         viewModelScope.launch {
             try {
-                val dto = repositorio.toSaveDto()
+                val dto = repositorio.toSaveDto(
+                    prioridade = state.prioridade,
+                    status = state.status,
+                    observacoes = state.observacoes
+                )
                 repotrackRepository.salvar(dto)
             } catch (erro: Exception) {
                 _uiState.value = _uiState.value.copy(
@@ -61,5 +68,17 @@ class DetalhesViewModel : ViewModel() {
                 )
             }
         }
+    }
+
+    fun atualizarPrioridade(novaPrioridade: Priority) {
+        _uiState.value = _uiState.value.copy(prioridade = novaPrioridade)
+    }
+
+    fun atualizarStatus(novoStatus: Status) {
+        _uiState.value = _uiState.value.copy(status = novoStatus)
+    }
+
+    fun atualizarObservacoes(novasObservacoes: String) {
+        _uiState.value = _uiState.value.copy(observacoes = novasObservacoes)
     }
 }
