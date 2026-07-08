@@ -1,4 +1,4 @@
-package com.example.repotrack.data.remote
+package com.example.repotrack.data.remote.api
 
 import com.example.repotrack.data.remote.dto.GitHubRepositorioDto
 import com.example.repotrack.data.remote.dto.GitHubSearchResponse

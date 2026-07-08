@@ -26,7 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.repotrack.data.model.RepositorioModel
+import com.example.repotrack.data.model.RepositorioGithubModel
 import com.example.repotrack.ui.components.BotaoAdicionarProjeto
 import com.example.repotrack.ui.components.CabecalhoDetalhes
 import com.example.repotrack.ui.components.CardMetrica
@@ -36,7 +36,7 @@ import java.util.Locale
 
 @Composable
 fun DetalhesContent(
-    repositorio: RepositorioModel,
+    repositorio: RepositorioGithubModel,
     onVoltar: () -> Unit,
     onAdicionarProjeto: () -> Unit,
     onAbrirRepositorio: () -> Unit,

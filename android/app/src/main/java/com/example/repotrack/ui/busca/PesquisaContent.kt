@@ -12,18 +12,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.repotrack.data.model.RepositorioModel
+import com.example.repotrack.data.model.RepositorioGithubModel
 import com.example.repotrack.ui.components.BotaoPesquisar
 import com.example.repotrack.ui.components.CampoPesquisa
 import com.example.repotrack.ui.components.CardRepositorio
-import com.example.repotrack.ui.theme.RepotrackTheme
 
 @Composable
 fun PesquisaContent(
     termo: String,
-    repositorios: List<RepositorioModel>,
+    repositorios: List<RepositorioGithubModel>,
     carregando: Boolean,
     onTermoChange: (String) -> Unit,
     onPesquisar: () -> Unit,

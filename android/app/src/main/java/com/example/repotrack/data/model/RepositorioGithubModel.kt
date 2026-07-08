@@ -1,6 +1,7 @@
 package com.example.repotrack.data.model
 
-data class RepositorioModel(
+data class RepositorioGithubModel(
+
     val githubId: Long,
     val nome: String,
     val proprietario: String,
@@ -11,9 +12,4 @@ data class RepositorioModel(
     val estrelas: Int,
     val forks: Int,
 
-
-    val prioridade: String = "Média",
-    val status: String = "Quero estudar",
-    val observacoes: String = "",
-    val criadoEm: String = ""
 )

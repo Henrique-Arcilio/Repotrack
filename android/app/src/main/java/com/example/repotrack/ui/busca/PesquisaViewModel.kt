@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.repotrack.data.model.RepositorioModel
+import com.example.repotrack.data.model.RepositorioGithubModel
 import com.example.repotrack.data.repository.GitHubRepository
 import kotlinx.coroutines.launch
 
@@ -14,7 +14,7 @@ class PesquisaViewModel (
 ) : ViewModel() {
     var termo by mutableStateOf("")
         private set
-    var repositorios by mutableStateOf<List<RepositorioModel>>(emptyList())
+    var repositorios by mutableStateOf<List<RepositorioGithubModel>>(emptyList())
         private set
     var carregando by mutableStateOf(false)
         private set

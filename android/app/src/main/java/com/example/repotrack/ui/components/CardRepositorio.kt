@@ -14,11 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.example.repotrack.data.model.RepositorioModel
+import com.example.repotrack.data.model.RepositorioGithubModel
 
 @Composable
 fun CardRepositorio(
-    repositorio: RepositorioModel,
+    repositorio: RepositorioGithubModel,
     onDetalhesClick: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {

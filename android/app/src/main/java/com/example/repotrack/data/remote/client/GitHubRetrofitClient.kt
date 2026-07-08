@@ -1,5 +1,6 @@
-package com.example.repotrack.data.remote
+package com.example.repotrack.data.remote.client
 
+import com.example.repotrack.data.remote.api.GitHubApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
