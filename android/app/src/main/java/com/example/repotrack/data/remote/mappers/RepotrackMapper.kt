@@ -9,6 +9,7 @@ import com.example.repotrack.data.remote.enums.Status
 
 fun RepotrackSaveResponse.toModel() : RepositorioRepotrackModel{
     return RepositorioRepotrackModel(
+        id = id,
         githubId = githubId,
         nome = name,
         proprietario = fullName,

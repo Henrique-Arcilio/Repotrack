@@ -17,7 +17,7 @@ class RepotrackRepository(
 
     suspend fun buscarTodos() : List<RepositorioRepotrackModel>{
         val resposta = api.buscarTodos()
-        return resposta.items.map { it.toModel() }
+        return resposta.map { it.toModel() }
     }
 
     suspend fun buscarPorId(id: String) : RepositorioRepotrackModel{
@@ -25,13 +25,12 @@ class RepotrackRepository(
         return resposta.toModel()
     }
 
-    suspend fun deletarPorId(id: String) : RepositorioRepotrackModel{
-        val resposta = api.deletarPorId(id)
-        return resposta.toModel()
+    suspend fun deletarPorId(id: String) {
+        api.deletarPorId(id)
     }
 
-    suspend fun editar(id: String) : RepositorioRepotrackModel{
-        val resposta = api.deletarPorId(id)
+    suspend fun editar(id: String, dto: RepotrackSaveDto) : RepositorioRepotrackModel{
+        val resposta = api.editar(id, dto)
         return resposta.toModel()
     }
 }

@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.repotrack.ui.busca.PesquisaScreen
 import com.example.repotrack.ui.detalhes.DetalhesScreen
+import com.example.repotrack.ui.meusprojetos.MeusProjetosScreen
 
 @Composable
 fun RepoTrackNavHost(
@@ -40,14 +41,8 @@ fun RepoTrackNavHost(
             )
         }
 
-        // Tela de projetos salvos
         composable(Rotas.SALVOS) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Meus projetos")
-            }
+            MeusProjetosScreen()
         }
 
         // Tela de detalhes

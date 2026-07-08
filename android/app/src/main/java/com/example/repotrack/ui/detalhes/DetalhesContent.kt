@@ -13,15 +13,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -30,9 +33,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.repotrack.data.model.RepositorioGithubModel
 import com.example.repotrack.ui.components.BotaoAdicionarProjeto
@@ -41,6 +46,8 @@ import com.example.repotrack.ui.components.CardMetrica
 import com.example.repotrack.ui.components.LinkRepositorio
 import com.example.repotrack.ui.components.SeletorOpcoes
 import com.example.repotrack.ui.components.TopoDetalhes
+import com.example.repotrack.ui.components.CampoObservacao
+import com.example.repotrack.ui.components.ResumoRepositorioSelecionado
 import com.example.repotrack.data.remote.enums.Priority
 import com.example.repotrack.data.remote.enums.Status
 import java.util.Locale
@@ -157,17 +164,37 @@ fun DetalhesContent(
         if (mostrarSheet) {
             ModalBottomSheet(
                 onDismissRequest = { mostrarSheet = false },
-                sheetState = sheetState
+                sheetState = sheetState,
+                containerColor = MaterialTheme.colorScheme.surface
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 32.dp, start = 16.dp, end = 16.dp)
                 ) {
-                    Text(
-                        text = "Configurações de Estudo",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Adicionar projeto",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+                        )
+
+                        IconButton(onClick = { mostrarSheet = false }) {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Fechar"
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    ResumoRepositorioSelecionado(
+                        repositorio = repositorio
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
@@ -209,22 +236,34 @@ fun DetalhesContent(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    OutlinedTextField(
-                        value = observacoes,
-                        onValueChange = onObservacoesAlteradas,
-                        label = { Text("Observações (opcional)") },
-                        modifier = Modifier.fillMaxWidth(),
-                        minLines = 3
+                    Text(
+                        text = "Observação",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                    BotaoAdicionarProjeto(
+
+                    CampoObservacao(
+                        valor = observacoes,
+                        onValorChange = onObservacoesAlteradas
+                    )
+
+                    Spacer(modifier = Modifier.height(26.dp))
+
+                    Button(
                         onClick = {
                             onAdicionarProjeto()
                             mostrarSheet = false
-                        }
-                    )
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp),
+                        shape = RoundedCornerShape(14.dp)
+                    ) {
+                        Text(text = "Salvar")
+                    }
                 }
             }
         }
