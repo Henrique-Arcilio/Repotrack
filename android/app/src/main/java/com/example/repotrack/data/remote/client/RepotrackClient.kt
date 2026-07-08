@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RepotrackClient {
-    private const val BASE_URL = "http://192.168.18.94:8080/api/v1/"
+    private const val BASE_URL = "https://repotrack-wpk1.onrender.com/api/v1/"
 
     val api: RepotrackApi by lazy {
         Retrofit.Builder()
