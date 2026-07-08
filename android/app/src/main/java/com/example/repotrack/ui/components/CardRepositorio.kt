@@ -34,7 +34,8 @@ fun CardRepositorio(
         ) {
             CabecalhoRepositorio(
                 nome = repositorio.nome,
-                proprietario = repositorio.proprietario
+                proprietario = repositorio.proprietario,
+                avatarUrl = repositorio.avatarUrl
             )
 
             Spacer(modifier = Modifier.size(14.dp))

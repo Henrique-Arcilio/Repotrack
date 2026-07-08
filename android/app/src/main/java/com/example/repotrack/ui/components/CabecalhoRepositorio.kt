@@ -18,12 +18,16 @@ import com.example.repotrack.ui.theme.RepotrackTheme
 @Composable
 fun CabecalhoRepositorio(
     nome: String,
-    proprietario: String
+    proprietario: String,
+    avatarUrl: String? = null
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        AvatarRepositorio(nome = nome)
+        AvatarRepositorio(
+            nome = nome,
+            avatarUrl = avatarUrl
+        )
 
         Spacer(modifier = Modifier.size(12.dp))
 

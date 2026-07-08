@@ -50,6 +50,7 @@ fun CardProjetoSalvo(
             ) {
                 CabecalhoRepositorio(
                     nome = projeto.nome,
+                    avatarUrl = projeto.avatarUrl,
                     proprietario = projeto.proprietario
                 )
                 

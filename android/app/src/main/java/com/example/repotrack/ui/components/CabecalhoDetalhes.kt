@@ -21,6 +21,7 @@ import com.example.repotrack.ui.theme.RepotrackTheme
 fun CabecalhoDetalhes(
     nome: String,
     proprietario: String,
+    avatarUrl: String? = null,
     modifier: Modifier = Modifier
 ){
     Column(
@@ -28,7 +29,10 @@ fun CabecalhoDetalhes(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        AvatarRepositorio(nome = nome)
+        AvatarRepositorio(
+            nome = nome,
+            avatarUrl = avatarUrl
+        )
 
         Spacer(modifier = Modifier.height(14.dp))
 

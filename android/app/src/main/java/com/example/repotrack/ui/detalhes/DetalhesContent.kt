@@ -86,6 +86,7 @@ fun DetalhesContent(
             CabecalhoDetalhes(
                 nome = repositorio.nome,
                 proprietario = repositorio.proprietario,
+                avatarUrl = repositorio.avatarUrl,
                 modifier = Modifier.fillMaxWidth()
             )
 
