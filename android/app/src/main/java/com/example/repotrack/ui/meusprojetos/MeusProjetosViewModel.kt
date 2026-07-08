@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class MeusProjetosViewModel : ViewModel() {
 
@@ -31,6 +32,11 @@ class MeusProjetosViewModel : ViewModel() {
                     carregando = false,
                     projetos = projetos
                 )
+            } catch (e: HttpException) {
+                _uiState.value = _uiState.value.copy(
+                    carregando = false,
+                    erro = "Erro no servidor: ${e.code()}"
+                )
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     carregando = false,
@@ -45,6 +51,10 @@ class MeusProjetosViewModel : ViewModel() {
             try {
                 repository.deletarPorId(id)
                 carregarProjetos()
+            } catch (e: HttpException) {
+                _uiState.value = _uiState.value.copy(
+                    erro = "Erro ao deletar: ${e.code()}"
+                )
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     erro = e.message ?: "Erro ao deletar projeto"
@@ -101,6 +111,13 @@ class MeusProjetosViewModel : ViewModel() {
                 repository.editar(projeto.id, dto)
                 _uiState.value = _uiState.value.copy(projetoSendoEditado = null)
                 carregarProjetos()
+            } catch (e: HttpException) {
+                val mensagem = if (e.code() == 409) {
+                    "Conflito ao salvar alterações. Este repositório pode ter sido modificado por outro usuário."
+                } else {
+                    "Erro ao editar: ${e.code()}"
+                }
+                _uiState.value = _uiState.value.copy(erro = mensagem)
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     erro = e.message ?: "Erro ao editar projeto"

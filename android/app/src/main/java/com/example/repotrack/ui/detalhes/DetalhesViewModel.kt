@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class DetalhesViewModel : ViewModel() {
 
@@ -62,6 +63,17 @@ class DetalhesViewModel : ViewModel() {
                     observacoes = state.observacoes
                 )
                 repotrackRepository.salvar(dto)
+                _uiState.value = _uiState.value.copy(
+                    mensagemSucesso = "Repositório salvo com sucesso!",
+                    erro = null
+                )
+            } catch (erro: HttpException) {
+                val mensagem = if (erro.code() == 409) {
+                    "Este repositório já está salvo na sua lista."
+                } else {
+                    "Erro no servidor: ${erro.code()}"
+                }
+                _uiState.value = _uiState.value.copy(erro = mensagem)
             } catch (erro: Exception) {
                 _uiState.value = _uiState.value.copy(
                     erro = erro.message ?: "Erro ao salvar repositório"
@@ -80,5 +92,13 @@ class DetalhesViewModel : ViewModel() {
 
     fun atualizarObservacoes(novasObservacoes: String) {
         _uiState.value = _uiState.value.copy(observacoes = novasObservacoes)
+    }
+
+    fun consumirMensagemErro() {
+        _uiState.value = _uiState.value.copy(erro = null)
+    }
+
+    fun consumirMensagemSucesso() {
+        _uiState.value = _uiState.value.copy(mensagemSucesso = null)
     }
 }

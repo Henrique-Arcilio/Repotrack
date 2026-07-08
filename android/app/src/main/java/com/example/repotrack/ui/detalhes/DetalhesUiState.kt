@@ -8,6 +8,7 @@ data class DetalhesUiState(
     val carregando: Boolean = false,
     val repositorio: RepositorioGithubModel? = null,
     val erro: String? = null,
+    val mensagemSucesso: String? = null,
     
     val prioridade: Priority = Priority.MEDIA,
     val status: Status = Status.QUERO_ESTUDAR,
